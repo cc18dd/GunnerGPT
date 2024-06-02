@@ -21,12 +21,12 @@
         const submitButton = document.getElementById('submit-button');
 
         // Function to simulate typing effect
-        function typeEffect(text, delay) {
+        function typeEffect(element, text, delay) {
             return new Promise(resolve => {
                 let index = 0;
                 const intervalId = setInterval(() => {
                     if (index < text.length) {
-                        userInput.value += text.charAt(index);
+                        element.textContent += text.charAt(index);
                         index++;
                     } else {
                         clearInterval(intervalId);
@@ -50,11 +50,15 @@
             // Change the button appearance to a square
             submitButton.textContent = '';
 
+            const botMessage = document.createElement('li');
+            botMessage.classList.add('message', 'bot-message');
+            messageHistory.appendChild(botMessage);
+
             // Simulate typing "Woof" with a delay between each character
-            await typeEffect("Woof", 200);
+            await typeEffect(botMessage, "Woof", 200);
 
             // Change the button appearance back to an arrow
-            submitButton.textContent = '';
+            submitButton.textContent = '↑';
 
             // Enable the button
             submitButton.disabled = false;
