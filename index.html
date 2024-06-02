@@ -1,4 +1,4 @@
-//v2
+//v3
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +16,12 @@
         <input type="text" class="input-field" id="user-input" placeholder="Ask GunnerGPT anything">
         <button class="submit-button" id="submit-button" disabled></button>
     </div>
+    <button class="fullscreen-button" id="fullscreen-button">&#26F6;</button>
     <script>
         const messageHistory = document.querySelector('.message-history');
         const userInput = document.getElementById('user-input');
         const submitButton = document.getElementById('submit-button');
+        const fullscreenButton = document.getElementById('fullscreen-button');
 
         // Function to simulate typing effect
         function typeEffect(element, text, delay) {
@@ -59,7 +61,7 @@
             await typeEffect(botMessage, "Woof", 200);
 
             // Change the button appearance back to an arrow
-            submitButton.textContent = '';
+            submitButton.textContent = '↑';
 
             // Enable the button
             submitButton.disabled = false;
@@ -80,6 +82,19 @@
                 sendResponse();
             }
         });
+
+        // Fullscreen toggle function
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        fullscreenButton.addEventListener('click', toggleFullScreen);
     </script>
 </body>
 </html>
