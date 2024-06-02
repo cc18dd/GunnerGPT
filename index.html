@@ -26,11 +26,7 @@
                 let index = 0;
                 const intervalId = setInterval(() => {
                     if (index < text.length) {
-                        const character = text.charAt(index);
-                        const botMessage = document.createElement('li');
-                        botMessage.classList.add('message', 'bot-message');
-                        botMessage.textContent = character;
-                        messageHistory.appendChild(botMessage);
+                        userInput.value += text.charAt(index);
                         index++;
                     } else {
                         clearInterval(intervalId);
@@ -40,37 +36,44 @@
             });
         }
 
-        submitButton.addEventListener('click', async () => {
-            if (userInput.value.trim() !== "") {
-                const userMessage = document.createElement('li');
-                userMessage.classList.add('message', 'user-message');
-                userMessage.textContent = userInput.value;
-                messageHistory.appendChild(userMessage);
+        async function sendResponse() {
+            const userMessage = document.createElement('li');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.textContent = userInput.value;
+            messageHistory.appendChild(userMessage);
 
-                userInput.value = ""; // Clear input field after submission
+            userInput.value = ""; // Clear input field after submission
 
-                // Disable the button
-                submitButton.disabled = true;
+            // Disable the button
+            submitButton.disabled = true;
 
-                // Change the button appearance to a square
-                submitButton.textContent = '';
+            // Change the button appearance to a square
+            submitButton.textContent = '';
 
-                // Simulate typing "Woof" with a delay between each character
-                await typeEffect("Woof", 500);
+            // Simulate typing "Woof" with a delay between each character
+            await typeEffect("Woof", 200);
 
-                // Change the button appearance back to an arrow
-                submitButton.textContent = '↑';
+            // Change the button appearance back to an arrow
+            submitButton.textContent = '↑';
 
-                // Enable the button
-                submitButton.disabled = false;
+            // Enable the button
+            submitButton.disabled = false;
 
-                messageHistory.scrollTop = messageHistory.scrollHeight; // Scroll to bottom after adding message
-            }
-        });
+            messageHistory.scrollTop = messageHistory.scrollHeight; // Scroll to bottom after adding message
+        }
+
+        submitButton.addEventListener('click', sendResponse);
 
         // Add event listener to enable/disable button based on input field content
         userInput.addEventListener('input', () => {
             submitButton.disabled = userInput.value.trim() === "";
+        });
+
+        // Allow submitting responses with the Enter key
+        userInput.addEventListener('keypress', event => {
+            if (event.key === 'Enter' && !submitButton.disabled) {
+                sendResponse();
+            }
         });
     </script>
 </body>
