@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GunnerGPT</title>
     <link rel="stylesheet" href="style.css">
-   
 </head>
 <body>
     <div class="container">
@@ -14,28 +13,64 @@
     </div>
     <div class="input-box">
         <input type="text" class="input-field" id="user-input" placeholder="Ask GunnerGPT anything">
-        <button class="submit-button" id="submit-button"></button>
+        <button class="submit-button" id="submit-button" disabled></button>
     </div>
     <script>
         const messageHistory = document.querySelector('.message-history');
         const userInput = document.getElementById('user-input');
         const submitButton = document.getElementById('submit-button');
 
-        submitButton.addEventListener('click', () => {
-            const userMessage = document.createElement('li');
-            userMessage.classList.add('message');
-            userMessage.classList.add('user-message');
-            userMessage.textContent = userInput.value;
-            messageHistory.appendChild(userMessage);
+        // Function to simulate typing effect
+        function typeEffect(text, delay) {
+            return new Promise(resolve => {
+                let index = 0;
+                const intervalId = setInterval(() => {
+                    if (index < text.length) {
+                        const character = text.charAt(index);
+                        const botMessage = document.createElement('li');
+                        botMessage.classList.add('message', 'bot-message');
+                        botMessage.textContent = character;
+                        messageHistory.appendChild(botMessage);
+                        index++;
+                    } else {
+                        clearInterval(intervalId);
+                        resolve();
+                    }
+                }, delay);
+            });
+        }
 
-            const botMessage = document.createElement('li');
-            botMessage.classList.add('message');
-            botMessage.classList.add('bot-message');
-            botMessage.textContent = "Woof";
-            messageHistory.appendChild(botMessage);
+        submitButton.addEventListener('click', async () => {
+            if (userInput.value.trim() !== "") {
+                const userMessage = document.createElement('li');
+                userMessage.classList.add('message', 'user-message');
+                userMessage.textContent = userInput.value;
+                messageHistory.appendChild(userMessage);
 
-            userInput.value = ""; // Clear input field after submission
-            messageHistory.scrollTop = messageHistory.scrollHeight; // Scroll to bottom after adding message
+                userInput.value = ""; // Clear input field after submission
+
+                // Disable the button
+                submitButton.disabled = true;
+
+                // Change the button appearance to a square
+                submitButton.textContent = '';
+
+                // Simulate typing "Woof" with a delay between each character
+                await typeEffect("Woof", 500);
+
+                // Change the button appearance back to an arrow
+                submitButton.textContent = '↑';
+
+                // Enable the button
+                submitButton.disabled = false;
+
+                messageHistory.scrollTop = messageHistory.scrollHeight; // Scroll to bottom after adding message
+            }
+        });
+
+        // Add event listener to enable/disable button based on input field content
+        userInput.addEventListener('input', () => {
+            submitButton.disabled = userInput.value.trim() === "";
         });
     </script>
 </body>
