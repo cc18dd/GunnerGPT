@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GunnerGPT</title>
+   
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">GunnerGPT</h1>
+        <ul class="message-history"></ul>
+    </div>
+    <div class="input-box">
+        <input type="text" class="input-field" id="user-input" placeholder="Ask GunnerGPT anything">
+        <button class="submit-button" id="submit-button">Ask</button>
+    </div>
+    <script>
+        const messageHistory = document.querySelector('.message-history');
+        const userInput = document.getElementById('user-input');
+        const submitButton = document.getElementById('submit-button');
+
+        submitButton.addEventListener('click', () => {
+            const userMessage = document.createElement('li');
+            userMessage.classList.add('message');
+            userMessage.classList.add('user-message');
+            userMessage.textContent = userInput.value;
+            messageHistory.appendChild(userMessage);
+
+            const botMessage = document.createElement('li');
+            botMessage.classList.add('message');
+            botMessage.classList.add('bot-message');
+            botMessage.textContent = "Woof";
+            messageHistory.appendChild(botMessage);
+
+            userInput.value = ""; // Clear input field after submission
+            messageHistory.scrollTop = messageHistory.scrollHeight; // Scroll to bottom after adding message
+        });
+    </script>
+</body>
+</html>
