@@ -4,6 +4,7 @@ body {
     padding: 20px;
     background-color: #222;
     color: #ddd;
+    position: relative;
 }
 
 .container {
@@ -58,7 +59,13 @@ body {
 .input-box {
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #333;
+    border-top: 1px solid #444;
 }
 
 .input-field {
@@ -84,15 +91,15 @@ body {
     padding: 0;
 }
 
+.submit-button:disabled {
+    background-color: #bbb; /* Change background color when disabled */
+    cursor: not-allowed; /* Change cursor to not-allowed when disabled */
+}
+
 .submit-button::before {
     content: '\2191'; /* Up arrow symbol */
     font-size: 24px;
     color: black;
-}
-
-.submit-button:disabled {
-    background-color: #bbb; /* Change background color when disabled */
-    cursor: not-allowed; /* Change cursor to not-allowed when disabled */
 }
 
 .submit-button.square {
